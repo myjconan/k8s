@@ -1,0 +1,84 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      ingress.kubernetes.io/proxy-body-size: "0"
+      ingress.kubernetes.io/ssl-redirect: "true"
+      meta.helm.sh/release-name: harbor
+      meta.helm.sh/release-namespace: harbor
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    creationTimestamp: "2023-11-23T02:03:42Z"
+    generation: 2
+    labels:
+      app: harbor
+      app.kubernetes.io/managed-by: Helm
+      chart: harbor
+      heritage: Helm
+      release: harbor
+    name: harbor-ingress
+    namespace: harbor
+    resourceVersion: "1467377"
+    uid: 78c59ee8-c963-49c0-9de8-cbd63c8d3515
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: core.harbor.domain
+      http:
+        paths:
+        - backend:
+            service:
+              name: harbor-core
+              port:
+                number: 80
+          path: /api/
+          pathType: Prefix
+        - backend:
+            service:
+              name: harbor-core
+              port:
+                number: 80
+          path: /service/
+          pathType: Prefix
+        - backend:
+            service:
+              name: harbor-core
+              port:
+                number: 80
+          path: /v2/
+          pathType: Prefix
+        - backend:
+            service:
+              name: harbor-core
+              port:
+                number: 80
+          path: /chartrepo/
+          pathType: Prefix
+        - backend:
+            service:
+              name: harbor-core
+              port:
+                number: 80
+          path: /c/
+          pathType: Prefix
+        - backend:
+            service:
+              name: harbor-portal
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+    tls:
+    - hosts:
+      - core.harbor.domain
+      secretName: harbor-ingress
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.18.9.77
+kind: List
+metadata:
+  resourceVersion: ""
+

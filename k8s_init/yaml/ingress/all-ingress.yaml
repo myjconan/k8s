@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    # ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: jenkins-ingress
+  namespace: jenkins
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: myjenkins.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: jenkins
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+      - ip: 172.18.9.77
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    # ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.org/proxy-pass-headers: "Upgrade,Connection,Authorization"
+    nginx.org/websocket-services: kuboard-v3
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  name: kuboard-ingress
+  namespace: kuboard
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: myk8s.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: kuboard-v3
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+      - ip: 172.18.9.77

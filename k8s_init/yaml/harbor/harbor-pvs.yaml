@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-registry
+  namespace: harbor
+spec:
+  storageClassName: harbor-registry
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 512Mi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/harbor-pv/harbor-registry/
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-jobservice
+  namespace: harbor
+spec:
+  storageClassName: harbor-jobservice
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 512Mi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/harbor-pv/harbor-jobservice/
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-database
+  namespace: harbor
+spec:
+  storageClassName: harbor-database
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/harbor-pv/harbor-database/
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-redis
+  namespace: harbor
+spec:
+  storageClassName: harbor-redis
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 512Mi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/harbor-pv/harbor-redis/
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-trivy
+  namespace: harbor
+spec:
+  storageClassName: harbor-trivy
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 512Mi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/harbor-pv/harbor-trivy/

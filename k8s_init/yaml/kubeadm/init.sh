@@ -1,0 +1,1 @@
+kubeadm init --apiserver-advertise-address=172.18.9.77 --apiserver-bind-port=6443 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12 --kubernetes-version=1.28.0 --image-repository registry.aliyuncs.com/google_containers

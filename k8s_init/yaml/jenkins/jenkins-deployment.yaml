@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins:lts
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
+            - name: maven-home
+              mountPath: /usr/local/maven
+            - name: jdk-home
+              mountPath: /home/dahantc/jdk1.8.0_321
+            - name: k8s-home
+              mountPath: /home/k8s/
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command:
+          #         ["/bin/bash", "/home/k8s/yaml/jenkins/prep_jenkins_env.sh"]
+      volumes:
+        - name: jenkins-home
+          hostPath:
+            path: /var/jenkins_home
+            type: Directory
+        - name: maven-home
+          hostPath:
+            path: /usr/local/maven
+            type: Directory
+        - name: jdk-home
+          hostPath:
+            path: /home/dahantc/jdk1.8.0_321
+            type: Directory
+        - name: k8s-home
+          hostPath:
+            path: /home/k8s/
+            type: Directory
+      dnsConfig:
+        nameservers:
+          - 223.5.5.5
