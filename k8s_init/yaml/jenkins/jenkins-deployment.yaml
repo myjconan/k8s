@@ -31,11 +31,16 @@ spec:
               mountPath: /home/dahantc/jdk1.8.0_321
             - name: k8s-home
               mountPath: /home/k8s/
-          # lifecycle:
-          #   postStart:
-          #     exec:
-          #       command:
-          #         ["/bin/bash", "/home/k8s/yaml/jenkins/prep_jenkins_env.sh"]
+            - name: k8s-config
+              mountPath: /root/.kube/config
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  [
+                    "/bin/bash",
+                    "/home/k8s/k8s_init/k8s_init/yaml/jenkins/prep_jenkins_env.sh",
+                  ]
       volumes:
         - name: jenkins-home
           hostPath:
@@ -53,6 +58,10 @@ spec:
           hostPath:
             path: /home/k8s/
             type: Directory
+        - name: k8s-config
+          hostPath:
+            path: /root/.kube/config
+            type: FileOrCreate
       dnsConfig:
         nameservers:
           - 223.5.5.5

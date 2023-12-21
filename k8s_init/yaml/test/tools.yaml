@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-deployment
+  namespace: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: busybox
+          command:
+            - sleep
+            - "3600"
+          image: busybox:1.28.3 # 注意镜像版本，1.28.4好像是有问题，不能正常进行DNS解析
