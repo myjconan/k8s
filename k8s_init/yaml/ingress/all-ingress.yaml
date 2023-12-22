@@ -1,3 +1,4 @@
+# jenkins
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -21,11 +22,8 @@ spec:
                   number: 8080
             path: /
             pathType: Prefix
-status:
-  loadBalancer:
-    ingress:
-      - ip: 172.18.9.77
 ---
+# kuboard
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -53,11 +51,8 @@ spec:
                   number: 80
             path: /
             pathType: Prefix
-status:
-  loadBalancer:
-    ingress:
-      - ip: 172.18.9.77
 ---
+# prometheus
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -79,7 +74,23 @@ spec:
                   number: 9090
             path: /
             pathType: Prefix
-status:
-  loadBalancer:
-    ingress:
-      - ip: 172.18.9.77
+    - host: mygrafana.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+    - host: myalertmanager.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: alertmanager
+                port:
+                  number: 9093
+            path: /
+            pathType: Prefix

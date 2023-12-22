@@ -34,28 +34,17 @@ spec:
       securityContext:
         fsGroup: 472
         runAsUser: 472
-  volumeClaimTemplates:
-    - metadata:
-        name: grafana-data
-      spec:
-        storageClassName: managed-nfs-storage
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: "1Gi"
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: grafana
-  namespace: prometheus
-spec:
-  type: NodePort
-  ports:
-    - port: 80
-      targetPort: 3000
-      nodePort: 30091
-  selector:
-    app: grafana
+      # volumeClaimTemplates:
+      #   - metadata:
+      #       name: grafana-data
+      #     spec:
+      #       storageClassName: managed-nfs-storage
+      #       accessModes:
+      #         - ReadWriteOnce
+      #       resources:
+      #         requests:
+      #           storage: "1Gi"
+      volumes:
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: grafana-pvc

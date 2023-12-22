@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-customer-hosts
+  namespace: kube-system
+data:
+  customer-hosts: |
+    172.18.9.166 gitlab.dahantc.com
+    172.18.1.157 harbor.dahantc.com
+    172.18.9.77 k8s-master myk8s.com myharbor.com myjenkins.com myprometheus.com mygrafana.com myalertmanager.com
