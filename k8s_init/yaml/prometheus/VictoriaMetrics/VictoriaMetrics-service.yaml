@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: victoria-metrics
+  namespace: prometheus
+spec:
+  # type: NodePort
+  ports:
+    - port: 8428
+  selector:
+    app: victoria-metrics
