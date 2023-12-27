@@ -94,3 +94,26 @@ spec:
                   number: 9093
             path: /
             pathType: Prefix
+---
+# prometheus
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+  name: test-ingress
+  namespace: test
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mytest.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: kubernetes-client-doc-web
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix

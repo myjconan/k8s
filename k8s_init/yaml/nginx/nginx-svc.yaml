@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-client-doc-web
+  namespace: test
+  labels:
+    app: kubernetes-client-doc-web
+spec:
+  ports:
+    - name: kubernetes-client-doc-web
+      port: 80
+      targetPort: 80
+  selector:
+    app: kubernetes-client-doc-web

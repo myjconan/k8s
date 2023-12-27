@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-client-doc-web
+  namespace: test
+spec:
+  selector:
+    matchLabels:
+      app: kubernetes-client-doc-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kubernetes-client-doc-web
+    spec:
+      containers:
+        - name: kubernetes-client-doc-web
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: port
+              protocol: TCP
+          volumeMounts:
+            - name: html
+              mountPath: "/usr/share/nginx/html"
+      volumes:
+        - name: html
+          hostPath:
+            path: /home/dahantc/kubernetes-client/doc/build/html/
