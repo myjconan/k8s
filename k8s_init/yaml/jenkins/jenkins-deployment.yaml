@@ -61,7 +61,7 @@ spec:
         - name: k8s-config
           hostPath:
             path: /root/.kube/config
-            type: FileOrCreate
+            type: File
       dnsConfig:
         nameservers:
           - 223.5.5.5
