@@ -18,6 +18,7 @@ EOF
 apt-get install -y kubectl
 #apt-get install -y kubelet
 pip install kubernetes
+pip install pandas
 #ssh
 apt-get install -y openssh-server
 echo -e "PermitRootLogin yes\nPasswordAuthentication yes" >>/etc/ssh/sshd_config

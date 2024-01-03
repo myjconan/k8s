@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dahantc-exporter
+  namespace: mod-5gucp
+spec:
+  selector:
+    matchLabels:
+      app: dahantc-exporter
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dahantc-exporter
+    spec:
+      containers:
+        - name: dahantc-exporter
+          image: 172.18.1.157/public/dahantc-exporter:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: port
+              protocol: TCP
+            - containerPort: 22
+              name: ssh
+              protocol: TCP
+          volumeMounts:
+            - name: k8s-config
+              mountPath: /root/.kube/config
+      volumes:
+        - name: k8s-config
+          hostPath:
+            path: /root/.kube/config
+            type: File
+      dnsConfig:
+        nameservers:
+          - 223.5.5.5

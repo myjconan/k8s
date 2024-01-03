@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: 5gucp105x
+  namespace: mod-5gucp
+spec:
+  replicas: 1
+  podManagementPolicy: "Parallel"
+  updateStrategy:
+    type: "RollingUpdate"
+  selector:
+    matchLabels:
+      k8s-app: 5gucp105x
+  serviceName: 5gucp105x
+  template:
+    metadata:
+      labels:
+        k8s-app: 5gucp105x
+    spec:
+      containers:
+        - name: mod-5gucp
+          image: "172.18.1.157/public/qa124-proddeptqaenv-5gucp-web-server:v1"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8081
+            - containerPort: 11028
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 8081
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 8081
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          # based on 10 running nodes with 30 pods each
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1000Mi
+            requests:
+              cpu: 200m
+              memory: 1000Mi
+      terminationGracePeriodSeconds: 300
