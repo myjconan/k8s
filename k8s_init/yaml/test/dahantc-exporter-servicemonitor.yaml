@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dahantc-exporter
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/component: exporter
+    app.kubernetes.io/name: dahantc-exporter
+    app.kubernetes.io/part-of: kube-prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - mod-5gucp
+  selector:
+    matchLabels:
+      app: dahantc-exporter
+  endpoints:
+    - port: port
