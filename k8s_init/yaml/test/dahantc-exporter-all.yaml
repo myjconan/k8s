@@ -16,7 +16,7 @@ spec:
       containers:
         - name: dahantc-exporter
           image: 172.18.1.157/public/dahantc-exporter:v1
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               name: web
