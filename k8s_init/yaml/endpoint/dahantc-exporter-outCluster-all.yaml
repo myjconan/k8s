@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Endpoints
 metadata:
   name: dahantc-exporter-mod-5gucp-outcluster
-  namespace: monitoring
+  namespace: mod-5gucp
   labels:
     app: dahantc-exporter
 subsets:
@@ -17,7 +17,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dahantc-exporter-mod-5gucp-outcluster
-  namespace: monitoring
+  namespace: mod-5gucp
   labels:
     app: dahantc-exporter
 spec:
