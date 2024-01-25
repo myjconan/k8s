@@ -1,0 +1,38 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: config-5gucp-alertmanagerconfig
+  labels:
+    alertmanagerConfig: 5gucp-alertmanagerconfig
+spec:
+  route:
+    groupBy: ["env", "service"]
+    groupWait: 10s
+    groupInterval: 1h
+    repeatInterval: 4h
+    receiver: "sendsms"
+    routes:
+      - receiver: "email"
+        matchRe:
+          service: 5gucp_service|5gucp_api
+      - receiver: "sendsms"
+        matchRe:
+          service: nginx|redis|minio_server|minio_service|nacos_service|node|mysql
+
+  receivers:
+    - name: "sendsms"
+      webhookConfigs:
+        - sendResolved: true
+          url: "http://172.18.9.77:19111/api/sendsms"
+
+    - name: "email"
+      emailConfigs:
+        - to: "273987074@qq.com"
+          sendResolved: true
+
+  inhibitRules:
+    - sourceMatch:
+        - name: "严重告警"
+      targetMatch:
+        - name: "一般告警"
+      equal: ["env", "service"]

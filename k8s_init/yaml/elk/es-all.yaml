@@ -1,0 +1,150 @@
+# pv和pvc
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: es-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: es-pv
+  hostPath:
+    path: /data/es-pv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: es-pvc
+  namespace: elk
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: es-pv
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: es
+  namespace: elk
+data:
+  elasticsearch.yml: |
+    cluster.name: my-cluster
+    node.name: node-1
+    #node.max_local_storage_nodes: 3
+    network.host: 0.0.0.0
+    http.port: 9200
+    discovery.seed_hosts: ["127.0.0.1", "[::1]"]
+    cluster.initial_master_nodes: ["node-1"]
+    http.cors.enabled: true
+    http.cors.allow-origin: /.*/
+    xpack.security.transport.ssl.enabled: false
+    xpack.security.enabled: true
+    xpack.security.enrollment.enabled: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: elk
+spec:
+  selector:
+    matchLabels:
+      name: elasticsearch
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: elasticsearch
+    spec:
+      initContainers: # 初始化容器
+        - name: fix-permissions
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command:
+            ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
+            - name: localtime
+              readOnly: true
+              mountPath: /etc/localtime
+        - name: increase-vm-max-map
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+        - name: increase-fd-ulimit
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "ulimit -n 65536"]
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 1Gi
+          env:
+            - name: ES_JAVA_OPTS
+              value: -Xms512m -Xmx512m
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data/
+            - name: es-config
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              subPath: elasticsearch.yml
+            - name: localtime
+              readOnly: true
+              mountPath: /etc/localtime
+      volumes:
+        - name: elasticsearch-data
+          persistentVolumeClaim:
+            claimName: es-pvc
+          # hostPath:
+          # path: /data/es
+        - name: es-config
+          configMap:
+            name: es
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: ""
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  namespace: elk
+  labels:
+    name: elasticsearch
+spec:
+  type: ClusterIP
+  ports:
+    - name: web-9200
+      port: 9200
+      targetPort: 9200
+      protocol: TCP
+    - name: web-9300
+      port: 9300
+      targetPort: 9300
+      protocol: TCP
+  selector:
+    name: elasticsearch
