@@ -38,13 +38,16 @@ data:
     #node.max_local_storage_nodes: 3
     network.host: 0.0.0.0
     http.port: 9200
-    discovery.seed_hosts: ["127.0.0.1", "[::1]"]
+    # discovery.seed_hosts: ["127.0.0.1", "[::1]"]
     cluster.initial_master_nodes: ["node-1"]
     http.cors.enabled: true
     http.cors.allow-origin: /.*/
-    xpack.security.transport.ssl.enabled: false
-    xpack.security.enabled: true
     xpack.security.enrollment.enabled: true
+    xpack.security.enabled: true
+    xpack.security.transport.ssl.enabled: true
+    xpack.security.transport.ssl.verification_mode: "certificate"
+    xpack.security.transport.ssl.keystore.path: "elastic-certificates.p12"
+    xpack.security.transport.ssl.truststore.path: "elastic-certificates.p12"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -113,12 +116,13 @@ spec:
             - name: localtime
               readOnly: true
               mountPath: /etc/localtime
+            - name: es-certificate
+              mountPath: /usr/share/elasticsearch/config/elastic-certificates.p12
+              readOnly: true
       volumes:
         - name: elasticsearch-data
           persistentVolumeClaim:
             claimName: es-pvc
-          # hostPath:
-          # path: /data/es
         - name: es-config
           configMap:
             name: es
@@ -126,7 +130,10 @@ spec:
           hostPath:
             path: /etc/localtime
             type: ""
-
+        - name: es-certificate
+          hostPath:
+            path: /usr/local/certificates/elastic-certificates.p12
+            type: File
 ---
 apiVersion: v1
 kind: Service
@@ -136,7 +143,7 @@ metadata:
   labels:
     name: elasticsearch
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: web-9200
       port: 9200
