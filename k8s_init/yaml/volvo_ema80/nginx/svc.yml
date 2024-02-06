@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: volvo-nginx-svc
+  namespace: ema80-ns
+  labels:
+    name: volvo-nginx-svc
+spec:
+  ports:
+  - port: 443
+    targetPort: 443
+    nodePort: 32226
+    name: sslport
+  - port: 18001
+    targetPort: 18001
+    nodePort: 31901
+    name: pushport
+  - port: 18080
+    targetPort: 18080
+    nodePort: 31905
+    name: webport
+  - port: 18181
+    targetPort: 18181
+    nodePort: 31903
+    name: app1port
+  - port: 18182
+    targetPort: 18182
+    nodePort: 31904
+    name: app2port
+  type: NodePort
+  selector:
+    app: volvo-nginx-prod

@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ctc-ema80-web-volvo-headless
+  namespace: ema80-ns
+  labels:
+    app: ctc-ema80-web-volvo-hdl
+spec:
+  ports:
+  - port: 8080
+    name: ctc-ema80-web-volvo
+  clusterIP: None
+  selector:
+    app: ctc-ema80-web-volvo-pod
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ctc-ema80-web-volvo
+  namespace: ema80-ns
+spec:
+  selector:
+    matchLabels:
+      app: ctc-ema80-web-volvo-pod
+  serviceName: "ctc-ema80-web-volvo-headless"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ctc-ema80-web-volvo-pod
+        restarts: "0"
+    spec:
+      terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+      - name: harbor
+      hostAliases:
+      - ip: 172.39.0.71
+        hostnames:
+        - "smsprod.c9x8xchllzd6.rds.cn-north-1.amazonaws.com.cn"
+      - ip: 172.39.0.82
+        hostnames:
+        - "sms-prod.hauy6v.ng.0001.cnn1.cache.amazonaws.com.cn"
+      containers:
+      - name: container-web-volvo
+        image: 985391863559.dkr.ecr.cn-north-1.amazonaws.com.cn/ctc-ema80-web-volvo:1.0.3
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c", "--" ]
+        args: ["cp /data/config/start.sh /home/dahantc/; /bin/sh /home/dahantc/start.sh"]
+        env:
+        - name: AppDeployIp
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: PodName
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MEM
+          value: "4096"
+        - name: AppGroup
+          value: "100"
+        ports:
+        - containerPort: 8080
+          name: web-stand
+        volumeMounts:
+        - name: storage-ema80-volvo
+          mountPath: /home/dahantc/ema80
+        - name: config-volume
+          mountPath: /data/config
+        - name: log-path
+          mountPath: /home/dahantc/logs
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 40
+          periodSeconds: 5
+          timeoutSeconds: 3 
+        readinessProbe:
+          #httpGet:
+          #  scheme: HTTP
+          #  path: /login/getIcon
+          #  port: 8080
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 50
+          periodSeconds: 5
+          timeoutSeconds: 3
+        #lifecycle:
+        #  preStop:
+        #    exec:
+        #      command:
+        #      - bash
+        #      - "/home/dahantc/backup_log.sh"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: volvo-ema80-config
+      - name: log-path
+        hostPath:
+          path: /project_logs
+  volumeClaimTemplates:
+  - metadata:
+      name: storage-ema80-volvo
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "gp2"
+      resources:
+        requests:
+          storage: 1Gi

@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ctc-ema80-web-stand-ingress
+  namespace: ema80-ns
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+spec:
+  rules:
+  - host: web.stand.lkl.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ctc-ema80-web-stand-headless
+          servicePort: 8080
+

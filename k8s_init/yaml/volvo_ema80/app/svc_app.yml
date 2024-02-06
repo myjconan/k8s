@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ema80-app-volvo-01
+  namespace: ema80-ns
+spec:
+  type: ClusterIP
+  ports:
+  - port: 18181
+    targetPort: 8888
+    name: http
+  selector:
+    statefulset.kubernetes.io/pod-name: "ctc-ema80-app-volvo-0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ema80-app-volvo-02
+  namespace: ema80-ns
+spec:
+  type: ClusterIP
+  ports:
+  - port: 18182
+    targetPort: 8888
+    name: http
+  selector:
+    statefulset.kubernetes.io/pod-name: "ctc-ema80-app-volvo-1"

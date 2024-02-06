@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="volvo-sms-http">
+    <bootstrap>com.ema.volvo.plugin.http.VolvoPluginBootstrap</bootstrap>
+    <version>1.0.35</version>
+    <name>沃尔沃接口插件</name>
+    <depict>沃尔沃接口插件，提供通信及监控查询接口</depict>
+    <remark>接口插件初始化版本</remark>
+    <archives>ics</archives>
+    <state>INSTALLED</state>
+    <params-config>
+        <![CDATA[
+			[
+                {
+					"key": "volvo.sms.sgip.host",
+					"value": "192.200.183.35",
+					"desc": "sgip协议连接地址"
+				},
+				{
+					"key": "volvo.sms.sgip.svrNum",
+					"value": "10655001064630131",
+					"desc": "sgip协议SP账号"
+				},
+				{
+					"key": "volvo.sms.sgip.user",
+					"value": "ltzwwew01_123",
+					"desc": "sgip协议连接账号"
+				},
+				{
+					"key": "volvo.sms.sgip.passwd",
+					"value": "ltzwwew01@123",
+					"desc": "sgip协议连接密码"
+				},
+				{
+					"key": "volvo.sms.sgip.port",
+					"value": 8801,
+					"desc": "sgip协议连接端口"
+				},
+       			         {
+                    			"key": "volvo.sms.sgip.listenport",
+                    			"value": 9802,
+                    			"desc": "sgip协议监听端口"
+               			 },
+				{
+					"key": "volvo.sms.sgip.serviceType",
+					"value": "",
+					"desc": ""
+				},
+				{
+					"key": "volvo.sms.sgip.spnode",
+					"value": "",
+					"desc": ""
+				},
+				{
+					"key": "volvo.sms.sgip.wndSize",
+					"value": 64,
+					"desc": "滑动窗口大小"
+				},
+				{
+					"key": "volvo.sms.sgip.wndTimeout",
+					"value": 30,
+					"desc": "sgip滑动窗口数据超时时间，单位：秒"
+				},
+				{
+					"key": "volvo.sms.sgip.corpId",
+					"value": "",
+					"desc": ""
+				},
+				{
+					"key": "volvo.sms.sgip.chargeNumber",
+					"value": "",
+					"desc": ""
+				},
+				{
+					"key": "volvo.sms.sgip.feeValue",
+					"value": 100000,
+					"desc": ""
+				},
+				{
+					"key": "volvo.sms.sgip.loginType",
+					"value": 1,
+					"desc": ""
+				},
+				{
+					"key": "volvo.sms.sgip.feeType",
+					"value": 0,
+					"desc": ""
+				},
+				{
+					"key": "volvo.sms.sgip.timeout",
+					"value": 10,
+					"desc": "sgip连接超时时间，单位：秒"
+				},
+				{
+					"key": "volvo.sms.sgip.maxSubcode",
+					"value": 5,
+					"desc": "字码最大长度"
+				},
+				{
+					"key": "volvo.sms.sgip.cutSign",
+					"value": 0,
+					"desc": "是否截取签名，是-1，否-0，默认为0"
+				},
+				{
+					"key": "volvo.sms.sgip.signPosition",
+					"value": 0,
+					"desc": "签名位置"
+				},
+				{
+					"key": "volvo.sms.sgip.connectSize",
+					"value": 5,
+					"desc": "sgip 客户端多链路连接数"
+				},
+				{
+					"key": "volvo.sms.deliver.pushUrl",
+					"value": "http://172.39.0.58:31901/sms-application/v2/mo",
+					"desc": "上行推送地址"
+				},
+				{
+					"key": "volvo.sms.report.pushUrl",
+					"value": "http://172.39.0.58:31901/sms-application/v2/dr",
+					"desc": "状态报告推送地址"
+				},
+				{
+					"key": "volvo.sms.forward.threadSize",
+					"value": 5,
+					"desc": "转发线程数"
+				},
+				{
+					"key": "volvo.sms.codingScheme",
+					"value": [0,4,247],
+					"desc": "短信内容可支持编码"
+				},
+				{
+					"key": "volvo.sms.queryMaxSize",
+					"value": 200,
+					"desc": "接口查询返回数据最大条数"
+				}
+				{
+                    "key": "volvo.sms.sgip.activeTime",
+                    "value": 10,
+                    "desc": "sgip链路的空闲时间，单位：秒"
+                }
+				{
+                    "key": "volvo.sms.submit.rateLimit",
+                    "value": 500,
+                    "desc": "发送接口速度控制，小于等于0不做控制"
+                }
+			]
+		]]>
+    </params-config>
+</plugin>

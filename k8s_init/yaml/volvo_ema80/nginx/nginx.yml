@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: volvo-nginx
+  namespace: ema80-ns
+spec:
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 1
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: volvo-nginx-prod
+  template:
+    metadata:
+      labels:
+        app: volvo-nginx-prod
+        restarts: "5"
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: ip-172-39-0-52.cn-north-1.compute.internal
+      imagePullSecrets:
+      - name: harbor
+      hostAliases:      
+      - ip: 47.102.134.211
+        hostnames:
+        - "cepsvc.cn.prod.c3.volvocars.com"
+      containers:
+      - name: nginx
+        image: 985391863559.dkr.ecr.cn-north-1.amazonaws.com.cn/nginx:latest
+        imagePullPolicy: IfNotPresent  
+        command: ["/bin/sh", "-c", "--" ]
+        args: ["cat /etc/nginx/conf.d/nginx.default > /etc/nginx/nginx.conf; /usr/sbin/nginx -g 'daemon off;'"]
+        ports:
+        - containerPort: 443
+          name: mt-port
+        - containerPort: 18080
+          name: web-port
+        - containerPort: 18001
+          name: push-port
+        livenessProbe:
+          tcpSocket:
+            port: 443
+          initialDelaySeconds: 5
+          periodSeconds: 3
+          timeoutSeconds: 2
+        readinessProbe:
+          tcpSocket:
+            port: 443 
+          initialDelaySeconds: 10
+          periodSeconds: 3
+          timeoutSeconds: 2
+        volumeMounts:
+        - name: ngconfig-volume
+          mountPath: /etc/nginx/conf.d
+        - name: ngcert-volume
+          mountPath: /etc/nginx/cert
+        - name: log-path
+          mountPath: /var/log/nginx
+      volumes:
+      - name: ngconfig-volume
+        configMap:
+          name: volvo-nginx-config
+      - name: ngcert-volume
+        configMap:
+          name: volvo-nginx-cert
+      - name: log-path
+        hostPath:
+          path: /project_logs
+

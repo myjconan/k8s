@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: volvo-channel-mo-svc
+  namespace: ema80-ns
+spec:
+  type: NodePort
+  ports:
+  - port: 9802
+    targetPort: 9802
+    nodePort: 31902
+    name: moport 
+  selector:
+    app: ctc-ema80-app-volvo-pod
