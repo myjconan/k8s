@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dahantc-exporter
+  namespace: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dahantc-exporter
+  template:
+    metadata:
+      labels:
+        app: dahantc-exporter
+    spec:
+      containers:
+        - args:
+            - -c
+            - while true; do echo hello; sleep 10;done
+          command:
+            - /bin/sh
+          image: python
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/bash
+                  - /home/k8s/k8s_init/k8s_init/yaml/test/prep_test_env.sh
+          name: dahantc-exporter
+          ports:
+            - containerPort: 80
+              name: port
+              protocol: TCP
+            - containerPort: 11028
+              name: remote-debug
+              protocol: TCP
+            - containerPort: 22
+              name: ssh
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/local/dahantc-exporter/
+              name: storage
+            - mountPath: /home/k8s/
+              name: k8s-home
+            - mountPath: /root/.kube/config
+              name: k8s-config
+      dnsConfig:
+        nameservers:
+          - 223.5.5.5
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: dahantc-exporter-pvc
+        - hostPath:
+            path: /home/k8s/
+            type: Directory
+          name: k8s-home
+        - hostPath:
+            path: /root/.kube/config
+            type: File
+          name: k8s-config
