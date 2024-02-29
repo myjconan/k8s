@@ -24,3 +24,4 @@ apt-get install -y openssh-server
 echo -e "PermitRootLogin yes\nPasswordAuthentication yes" >>/etc/ssh/sshd_config
 # 修改密码
 echo -e "123456\n123456\n" | passwd root
+service ssh start
