@@ -28,6 +28,8 @@ pip install gevent
 #ssh
 apt-get install -y openssh-server
 echo -e "PermitRootLogin yes\nPasswordAuthentication yes" >>/etc/ssh/sshd_config
+service ssh start
 # 修改密码
 echo -e "123456\n123456\n" | passwd root
-service ssh start
+# 修改时区
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
