@@ -153,3 +153,29 @@ spec:
                   number: 5601
             path: /
             pathType: Prefix
+---
+# mod-5gucp
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    # nginx.ingress.kubernetes.io/auth-type: basic
+    # nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    # nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - admin"
+  name: dahantc-exporter-ingress
+  namespace: mod-5gucp
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mydahantc-exporter.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: dahantc-exporter-mod-5gucp-outcluster
+                port:
+                  number: 31888
+            path: /
+            pathType: Prefix
