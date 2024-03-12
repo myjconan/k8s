@@ -176,6 +176,6 @@ spec:
               service:
                 name: dahantc-exporter-mod-5gucp-outcluster
                 port:
-                  number: 80
+                  number: 31888
             path: /
             pathType: Prefix

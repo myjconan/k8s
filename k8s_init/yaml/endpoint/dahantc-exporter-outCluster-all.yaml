@@ -4,7 +4,7 @@ metadata:
   name: dahantc-exporter-mod-5gucp-outcluster
   namespace: mod-5gucp
   labels:
-    app: dahantc-exporter
+    app: dahantc-exporter-outcluster
 subsets:
   - addresses:
       - ip: 172.18.9.190
@@ -21,12 +21,13 @@ metadata:
   labels:
     app: dahantc-exporter
 spec:
+  type: NodePort
   ports:
-    - port: 80
+    - port: 31888
       targetPort: 31888
+      nodePort: 31110
+      protocol: TCP
       name: metrics
-  selector:
-    app: dahantc-exporter
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
