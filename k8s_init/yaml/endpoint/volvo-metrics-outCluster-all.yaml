@@ -1,0 +1,70 @@
+# apiVersion: v1
+# kind: Endpoints
+# metadata:
+#   name: volvo-metrics-outCluster
+#   namespace: mod-5gucp
+#   labels:
+#     app: volvo-metrics-outCluster
+# subsets:
+#   - addresses:
+#       - ip: 172.18.9.190
+#     ports:
+#       - name: metrics
+#         port: 31888
+#         protocol: TCP
+# ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: volvo-metrics-outcluster
+  namespace: mod-5gucp
+  labels:
+    app: volvo-metrics
+spec:
+  type: ExternalName
+  externalName: "prome1volvosms.cu-sc.com"
+  sessionAffinity: None
+  ports:
+    - port: 80
+      protocol: TCP
+      name: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: volvo-metrics
+  namespace: monitoring
+  labels:
+    app: volvo-metrics
+spec:
+  namespaceSelector:
+    matchNames:
+      - mod-5gucp
+      - monitoring
+    # any: true
+  selector:
+    matchLabels:
+      app: volvo-metrics
+  endpoints:
+    - port: metrics
+      path: /metrics/prometheus
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true  # 如果你的外部域名使用自签名证书，请设置为 true
+      basicAuth:
+        password:
+          name: volvo-basic-auth
+          key: password
+        username:
+          name: volvo-basic-auth
+          key: username
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: volvo-basic-auth
+  namespace: monitoring
+data:
+  password: YyNoMWYzJC4u # base64编码后的密码
+  username: YWRtaW4= # base64编码后的用户名
+type: Opaque
