@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ansible
+  namespace: ansible
+  labels:
+    app: ansible
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ansible
+  template:
+    metadata:
+      labels:
+        app: ansible
+    spec:
+      containers:
+        - name: ansible
+          image: semaphoreui/semaphore:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: SEMAPHORE_DB_DIALECT
+              value: "bolt"
+            - name: SEMAPHORE_ADMIN_PASSWORD
+              value: "changeme"
+            - name: SEMAPHORE_ADMIN_NAME
+              value: "admin"
+            - name: SEMAPHORE_ADMIN_EMAIL
+              value: "admin@localhost"
+            - name: SEMAPHORE_ADMIN
+              value: "admin"
+            - name: TZ
+              value: "Europe/Berlin"
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+            - name: database
+              mountPath: /var/lib/semaphore
+            - name: config
+              mountPath: /etc/semaphore
+            - name: localtime
+              readOnly: true
+              mountPath: /etc/localtime
+      volumes:
+        - name: database
+          persistentVolumeClaim:
+            claimName: ansible-pvc
+        - name: config
+          hostPath:
+            path: /home/ansible/
+        - name: localtime
+          hostPath:
+            type: File
+            path: /etc/localtime
