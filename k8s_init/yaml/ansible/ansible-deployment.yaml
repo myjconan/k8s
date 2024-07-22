@@ -15,9 +15,12 @@ spec:
       labels:
         app: ansible
     spec:
+      imagePullSecrets:
+        - name: harbor
       containers:
         - name: ansible
-          image: semaphoreui/semaphore:latest
+          image: myharbor.com/public/semaphoreui/semaphore:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
@@ -46,12 +49,16 @@ spec:
             timeoutSeconds: 5
             successThreshold: 1
             failureThreshold: 3
+            tcpSocket:
+              port: 3000
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
             successThreshold: 1
             failureThreshold: 3
+            tcpSocket:
+              port: 3000
           volumeMounts:
             - name: database
               mountPath: /var/lib/semaphore
