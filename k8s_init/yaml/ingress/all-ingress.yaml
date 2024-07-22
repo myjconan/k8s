@@ -179,3 +179,29 @@ spec:
                   number: 31888
             path: /
             pathType: Prefix
+---
+# ansible
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    # nginx.ingress.kubernetes.io/auth-type: basic
+    # nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    # nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - admin"
+  name: ansible
+  namespace: ansible
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: myansible.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: ansible
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
