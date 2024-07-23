@@ -195,7 +195,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: myansible.com
+    - host: myansibleui.com
       http:
         paths:
           - backend:
