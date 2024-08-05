@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: loki-pv
+  namespace: kuboard
+spec:
+  storageClassName: loki-pv
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 3Gi
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/loki-pv/
