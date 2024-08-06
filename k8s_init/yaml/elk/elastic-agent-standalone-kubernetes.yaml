@@ -666,97 +666,49 @@ data:
       data: >-
         eyJpZCI6IjU5YTQyYjE5LTZmYzAtNDQwYy04OGZkLTg3OGZhZmU0ZjA4ZiIsImFnZW50Ijp7ImZlYXR1cmVzIjp7fSwicHJvdGVjdGlvbiI6eyJlbmFibGVkIjpmYWxzZSwidW5pbnN0YWxsX3Rva2VuX2hhc2giOiJTaGhRYUpEemJSUjczdnJkSkMyb1Q0NVVXd0pXTzdqakpBVVFCQklqRmY4PSIsInNpZ25pbmdfa2V5IjoiTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFelFyQUtLT1lqa0U1eWpzQ256Nm4wYmZaaWpTMzRHWUUwRFZwckJIbHpza2FHdFZiZE5ZT0pKOUVuN1ZnMXJqRXFFOU03b2cvUDdnZ3ZUd1BGQ1hlVUE9PSJ9fSwiaW5wdXRzIjpbeyJpZCI6Imt1YmVybmV0ZXMvbWV0cmljcy1rdWJlbGV0LWM1YTYzZWUzLWRjMTctNGZjOS1iZGM1LTljNzA3OTVmMzA3NyIsIm5hbWUiOiJrdWJlcm5ldGVzLTEiLCJyZXZpc2lvbiI6MSwidHlwZSI6Imt1YmVybmV0ZXMvbWV0cmljcyJ9LHsiaWQiOiJrdWJlcm5ldGVzL21ldHJpY3Mta3ViZS1zdGF0ZS1tZXRyaWNzLWM1YTYzZWUzLWRjMTctNGZjOS1iZGM1LTljNzA3OTVmMzA3NyIsIm5hbWUiOiJrdWJlcm5ldGVzLTEiLCJyZXZpc2lvbiI6MSwidHlwZSI6Imt1YmVybmV0ZXMvbWV0cmljcyJ9LHsiaWQiOiJrdWJlcm5ldGVzL21ldHJpY3Mta3ViZS1hcGlzZXJ2ZXItYzVhNjNlZTMtZGMxNy00ZmM5LWJkYzUtOWM3MDc5NWYzMDc3IiwibmFtZSI6Imt1YmVybmV0ZXMtMSIsInJldmlzaW9uIjoxLCJ0eXBlIjoia3ViZXJuZXRlcy9tZXRyaWNzIn0seyJpZCI6Imt1YmVybmV0ZXMvbWV0cmljcy1rdWJlLXByb3h5LWM1YTYzZWUzLWRjMTctNGZjOS1iZGM1LTljNzA3OTVmMzA3NyIsIm5hbWUiOiJrdWJlcm5ldGVzLTEiLCJyZXZpc2lvbiI6MSwidHlwZSI6Imt1YmVybmV0ZXMvbWV0cmljcyJ9LHsiaWQiOiJrdWJlcm5ldGVzL21ldHJpY3MtZXZlbnRzLWM1YTYzZWUzLWRjMTctNGZjOS1iZGM1LTljNzA3OTVmMzA3NyIsIm5hbWUiOiJrdWJlcm5ldGVzLTEiLCJyZXZpc2lvbiI6MSwidHlwZSI6Imt1YmVybmV0ZXMvbWV0cmljcyJ9LHsiaWQiOiJmaWxlc3RyZWFtLWNvbnRhaW5lci1sb2dzLWM1YTYzZWUzLWRjMTctNGZjOS1iZGM1LTljNzA3OTVmMzA3NyIsIm5hbWUiOiJrdWJlcm5ldGVzLTEiLCJyZXZpc2lvbiI6MSwidHlwZSI6ImZpbGVzdHJlYW0ifSx7ImlkIjoibG9nZmlsZS1zeXN0ZW0tNmZlOWJkZDMtMzk3OS00Y2ZlLThhNGYtNTBjMTVhYTIzN2RkIiwibmFtZSI6InN5c3RlbS0xNzMiLCJyZXZpc2lvbiI6MSwidHlwZSI6ImxvZ2ZpbGUifSx7ImlkIjoid2lubG9nLXN5c3RlbS02ZmU5YmRkMy0zOTc5LTRjZmUtOGE0Zi01MGMxNWFhMjM3ZGQiLCJuYW1lIjoic3lzdGVtLTE3MyIsInJldmlzaW9uIjoxLCJ0eXBlIjoid2lubG9nIn0seyJpZCI6InN5c3RlbS9tZXRyaWNzLXN5c3RlbS02ZmU5YmRkMy0zOTc5LTRjZmUtOGE0Zi01MGMxNWFhMjM3ZGQiLCJuYW1lIjoic3lzdGVtLTE3MyIsInJldmlzaW9uIjoxLCJ0eXBlIjoic3lzdGVtL21ldHJpY3MifV19
       signature: >-
-        MEUCIDUKTdcarpWBKi38YJWHEhUDMXy9G2AZCG6tDqutPRlyAiEAsrirdbCeCA2NiCrJiuYJHRCMhIafPkg+MN/n8wnYUyo=
+        MEUCIQCuR9i9RAq6XpoCVPRBpdqeNIXH4CH73JpiXGb4q5aFLwIgC5r2Q+3975zbZUX1m8GAEc8+9QrPL5hZHV+yClbNlcI=
     output_permissions:
       default:
         _elastic_agent_monitoring:
           indices:
             - names:
+                - logs-elastic_agent-default
+                - logs-elastic_agent.elastic_agent-default
                 - logs-elastic_agent.apm_server-default
+                - logs-elastic_agent.filebeat-default
+                - logs-elastic_agent.filebeat_input-default
+                - logs-elastic_agent.fleet_server-default
+                - logs-elastic_agent.metricbeat-default
+                - logs-elastic_agent.osquerybeat-default
+                - logs-elastic_agent.packetbeat-default
+                - logs-elastic_agent.endpoint_security-default
+                - logs-elastic_agent.auditbeat-default
+                - logs-elastic_agent.heartbeat-default
+                - logs-elastic_agent.cloudbeat-default
+                - logs-elastic_agent.cloud_defend-default
+                - logs-elastic_agent.pf_host_agent-default
+                - logs-elastic_agent.pf_elastic_collector-default
+                - logs-elastic_agent.pf_elastic_symbolizer-default
+                - metrics-elastic_agent-default
+                - metrics-elastic_agent.elastic_agent-default
+                - metrics-elastic_agent.apm_server-default
+                - metrics-elastic_agent.filebeat-default
+                - metrics-elastic_agent.filebeat_input-default
+                - metrics-elastic_agent.fleet_server-default
+                - metrics-elastic_agent.metricbeat-default
+                - metrics-elastic_agent.osquerybeat-default
+                - metrics-elastic_agent.packetbeat-default
+                - metrics-elastic_agent.endpoint_security-default
+                - metrics-elastic_agent.auditbeat-default
+                - metrics-elastic_agent.heartbeat-default
+                - metrics-elastic_agent.cloudbeat-default
+                - metrics-elastic_agent.cloud_defend-default
+                - metrics-elastic_agent.pf_host_agent-default
+                - metrics-elastic_agent.pf_elastic_collector-default
+                - metrics-elastic_agent.pf_elastic_symbolizer-default
               privileges: &ref_0
                 - auto_configure
                 - create_doc
-            - names:
-                - metrics-elastic_agent.apm_server-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.auditbeat-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.auditbeat-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.cloud_defend-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.cloudbeat-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.cloudbeat-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.elastic_agent-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.endpoint_security-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.endpoint_security-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.filebeat_input-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.filebeat_input-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.filebeat-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.filebeat-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.fleet_server-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.fleet_server-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.heartbeat-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.heartbeat-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.metricbeat-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.metricbeat-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.osquerybeat-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.osquerybeat-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.packetbeat-default
-              privileges: *ref_0
-            - names:
-                - metrics-elastic_agent.packetbeat-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.pf_elastic_collector-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.pf_elastic_symbolizer-default
-              privileges: *ref_0
-            - names:
-                - logs-elastic_agent.pf_host_agent-default
-              privileges: *ref_0
         _elastic_agent_checks:
           cluster:
             - monitor
@@ -928,7 +880,7 @@ spec:
       #        mountPath: /etc/elastic-agent/inputs.d
       containers:
         - name: elastic-agent
-          image: docker.elastic.co/beats/elastic-agent:8.12.0
+          image: docker.elastic.co/beats/elastic-agent:8.14.3
           args: ["-c", "/etc/elastic-agent/agent.yml", "-e"]
           env:
             # The basic authentication username used to connect to Elasticsearch
@@ -937,7 +889,7 @@ spec:
               value: "elastic"
             # The basic authentication password used to connect to Elasticsearch
             - name: ES_PASSWORD
-              value: "123456"
+              value: "changeme"
             - name: NODE_NAME
               valueFrom:
                 fieldRef:
@@ -948,7 +900,7 @@ spec:
                   fieldPath: metadata.name
             - name: STATE_PATH
               value: "/etc/elastic-agent"
-            # The following ELASTIC_NETINFO:false variable will disable the netinfo.enabled option of add-host-metadata processor. This will remove fields host.ip and host.mac.
+            # The following ELASTIC_NETINFO:false variable will disable the netinfo.enabled option of add-host-metadata processor. This will remove fields host.ip and host.mac.  
             # For more info: https://www.elastic.co/guide/en/beats/metricbeat/current/add-host-metadata.html
             - name: ELASTIC_NETINFO
               value: "false"
@@ -1163,10 +1115,10 @@ rules:
     resources:
       - podsecuritypolicies
     verbs: ["get", "list", "watch"]
-  - apiGroups: ["storage.k8s.io"]
+  - apiGroups: [ "storage.k8s.io" ]
     resources:
       - storageclasses
-    verbs: ["get", "list", "watch"]
+    verbs: [ "get", "list", "watch" ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -1206,4 +1158,3 @@ metadata:
   labels:
     k8s-app: elastic-agent
 ---
-
