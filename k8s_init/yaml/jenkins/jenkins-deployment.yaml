@@ -17,9 +17,11 @@ spec:
         runAsUser: 0
         runAsGroup: 0
         fsGroup: 0
+      imagePullSecrets:
+        - name: harbor
       containers:
         - name: jenkins
-          image: jenkins/jenkins:lts
+          image: myharbor.com/public/jenkins/jenkins:lts
           resources:
             limits:
               cpu: 1000m
