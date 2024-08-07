@@ -8,3 +8,4 @@ data:
     172.18.9.166 gitlab.dahantc.com
     172.18.1.157 harbor.dahantc.com
     172.18.9.77 k8s-master myk8s.com myharbor.com myjenkins.com myprometheus.com mygrafana.com myalertmanager.com
+    172.18.9.77 myelasticsearch.com mydahantc-exporter.com myansibleui.com mytest.com mypython.com mykibana.com
