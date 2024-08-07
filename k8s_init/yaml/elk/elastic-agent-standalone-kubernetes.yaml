@@ -13,8 +13,8 @@ data:
         type: elasticsearch
         hosts:
           - 'http://elasticsearch.elk.svc:9200'
-        username: '${ES_USERNAME}'
-        password: '${ES_PASSWORD}'
+        username: 'kibana_system'
+        password: '123456'
         preset: balanced
     inputs:
       - id: kubernetes/metrics-kubelet-c5a63ee3-dc17-4fc9-bdc5-9c70795f3077
